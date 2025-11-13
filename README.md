@@ -20,7 +20,6 @@ A complete, production-ready implementation of **Canary Deployment** using Argo 
   - [9. Metrics & Analysis](#9-metrics--analysis)
   - [10. Automated Rollback Testing](#10-automated-rollback-testing)
 - [Usage](#usage)
-- [Project Structure](#project-structure)
 
 ## 🎯 Overview
 
