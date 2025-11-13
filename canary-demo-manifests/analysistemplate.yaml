@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: error-rate-analysis
+  namespace: default
+spec:
+  metrics:
+  - name: error-rate
+    interval: 30s
+    successCondition: result < 5
+    failureLimit: 3
+    provider:
+      prometheus:
+        address: http://prometheus-kube-prometheus-prometheus.monitoring.svc:9090
+        query: |
+          (
+            sum(rate(http_errors_total{app="canary-demo"}[1m])) 
+            / 
+            sum(rate(http_requests_total{app="canary-demo"}[1m]))
+          ) * 100
