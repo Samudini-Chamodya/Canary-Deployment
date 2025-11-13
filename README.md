@@ -743,7 +743,7 @@ docker push samudini914/canary-demo-app:v3-fixed
 
 ![docker](screenshots/3version.png)
 
-### Edit your rollout file (app/rollout.yaml) and update the image and environment variable
+Edit your rollout file (app/rollout.yaml) and update the image and environment variable
 
 ```bash
 image: samudini914/canary-demo-app:v3-fixed
@@ -752,12 +752,12 @@ env:
   value: "v3-fixed"
 ```
 
-### Apply the Changes
+Apply the Changes
 
 ```bash
 kubectl apply -f app/rollout.yaml
 ```
-### Monitor the rollout Process
+Monitor the rollout Process
 
 ```bash
 kubectl argo rollouts get rollout canary-demo -n default --watch
@@ -766,15 +766,15 @@ kubectl argo rollouts get rollout canary-demo -n default --watch
 
 ![Argo-rollout](screenshots/deploy.png)
 
-### Refresh your browser
+Refresh your browser
 
 ![Output](screenshots/v3.png)
 
-### Grafana view of CPU, Memory, Network I/O, and Disk I/O 
+Grafana view of CPU, Memory, Network I/O, and Disk I/O 
 
 ![Output](screenshots/cpu.png)
 
-## 🎉 Successfully completed a clean canary deployment!
+##### 🎉 Successfully completed a clean canary deployment!
 
 Author- Samudini Roopasinha
 
