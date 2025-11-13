@@ -22,8 +22,6 @@ A complete, production-ready implementation of **Canary Deployment** using Argo 
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 
----
-
 ## 🎯 Overview
 
 This project implements a **canary deployment strategy** that gradually shifts traffic from a stable version to a new version while continuously monitoring application health. If the new version shows degraded performance or increased error rates, the system automatically rolls back to the previous stable version.
@@ -93,7 +91,6 @@ Canary deployment is a progressive delivery technique that reduces the risk of i
 - **Real-time rollout status**
 - **Historical deployment tracking**
 
----
 
 ## 📦 Prerequisites
 
@@ -107,7 +104,7 @@ Before starting, ensure you have:
   - helm
   - docker
   - git
-  - doctl (optional)
+  - doctl
 
 
 ---
@@ -118,7 +115,7 @@ Before starting, ensure you have:
 
 ### Step 1.1: Install Required Tools
 
-# Install tools
+#### Install tools
 ```bash
 choco install kubernetes-cli
 choco install kubernetes-helm
@@ -173,7 +170,7 @@ git --version
 ### Step 2.2: Configure Cluster
 
 #### Kubernetes Version
-- Select the latest stable version (e.g., 1.28.x)
+- Select the latest stable version 
 
 
 #### Datacenter Region
@@ -220,8 +217,6 @@ kubectl get nodes
 **Expected Output:**
 
 ![K8s Cluster](screenshots/k8.png)
-
----
 
 ## 3. Application Development
 
@@ -275,7 +270,7 @@ docker build -t yourusername/canary-demo-app:v2 --build-arg VERSION=v2 .
 docker push yourusername/canary-demo-app:v2
 ```
 ![Docker hub](screenshots/build.png)
----
+
 
 ## 5. Argo Rollouts Installation
 
@@ -301,37 +296,8 @@ kubectl get pods -n argo-rollouts
 **Expected Output:**
 ![Argo-rollouts](screenshots/rollout.png)
 
-### Step 5.3: Install Argo Rollouts kubectl Plugin
 
-<details>
-<summary><b>Windows</b></summary>
-
-```powershell
-$url = "https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-windows-amd64"
-$output = "$env:ProgramFiles\kubectl-argo-rollouts.exe"
-Invoke-WebRequest -Uri $url -OutFile $output
-```
-</details>
-
-<details>
-<summary><b>macOS</b></summary>
-
-```bash
-brew install argoproj/tap/kubectl-argo-rollouts
-```
-</details>
-
-<details>
-<summary><b>Linux</b></summary>
-
-```bash
-curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
-chmod +x kubectl-argo-rollouts-linux-amd64
-sudo mv kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
-```
-</details>
-
-### Step 5.4: Verify Plugin
+### Step 5.3: Verify Plugin
 
 ```bash
 kubectl argo rollouts version
@@ -378,8 +344,6 @@ Open browser: `https://localhost:8080`
 ![Argocd-Login](screenshots/login.png)
 
 
----
-
 ## 7. GitOps Configuration
 
 ### Step 7.1: Create GitHub Repository
@@ -412,8 +376,6 @@ git add .
 git commit -m "Add canary deployment manifests"
 git push origin main
 ```
-
----
 
 ## 8. Monitoring Stack
 
@@ -476,7 +438,7 @@ Open browser: `http://localhost:3000`
 
 ## 9. Metrics & Analysis
 
-### Step 9.1: Create Application with Metrics
+#### Step 9.1: Create Application with Metrics
 
 Create enhanced `app.py` with metrics endpoint (app-v3)
 
@@ -487,20 +449,20 @@ docker build -t yourusername/canary-demo-app:v3 .
 docker push yourusername/canary-demo-app:v3
 ```
 
-### Step 9.2: Create ServiceMonitor
+#### Step 9.2: Create ServiceMonitor
 
 Create `app/servicemonitor.yaml`
 
-### Step 9.3: Create AnalysisTemplate
+#### Step 9.3: Create AnalysisTemplate
 
 Create `app/analysistemplate.yaml`
 
-### Step 9.4: Update Rollout with Analysis
+#### Step 9.4: Update Rollout with Analysis
 
 Create `app/rollout-with-analysis.yaml`
-Push to GitHub:
 
----
+Push to GitHub
+
 
 ## 10. Automated Rollback Testing
 
@@ -595,10 +557,10 @@ kubectl get pods -n default -w
 
 6. **100% Traffic to v2** - Complete!
    - All 5 pods running v2
+     
+Refresh your browser to see the new version
 
 ![Dashboard](screenshots/new.png)
-
-Refresh your browser to see the new version
 
 
 ### Step 10.5: Deploy v3 (Failed Canary with Rollback)
@@ -713,7 +675,7 @@ kubectl argo rollouts retry rollout canary-demo -n default
 3. Navigate to **"Kubernetes / Compute Resources / Namespace (Pods)"**
 4. Select namespace: `default`
 
-![Grafana](screenshots/grafana.png)
+![Grafana](screenshots/grafana_5.png)
 
 ### Querying Prometheus
 
@@ -730,15 +692,14 @@ kubectl port-forward -n monitoring svc/prometheus-kube-prometheus-prometheus 909
 
 In this step, we’ll deploy a **stable v3-fixed** version of the `canary-demo` app to verify a **successful canary rollout** with no simulated errors.
 
----
 
 ###  Step 1: Update `app.py` (Remove Error Simulation) or create `app-v3.py`
 
 Push it to github
 
 ```bash
-docker build -t samudini914/canary-demo-app:v3-fixed --build-arg VERSION=v3-fixed .
-docker push samudini914/canary-demo-app:v3-fixed
+docker build -t samudini914/canary-demo-app:v3-fixed --build-arg VERSION=v3 .
+docker push samudini914/canary-demo-app:v3
 ```
 
 ![docker](screenshots/3version.png)
